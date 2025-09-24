@@ -1,0 +1,19 @@
+ARG PHP_VERSION=latest
+
+# Usa a imagem oficial do PHP CLI
+FROM php:${PHP_VERSION}-cli-alpine
+
+# Instala dependências básicas (git, unzip, zip) para o composer
+RUN apk add --no-cache \
+    git \
+    unzip \
+    zip
+
+# Instala o Composer a partir da imagem oficial composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Define diretório de trabalho
+WORKDIR /app
+
+# Comando padrão ao rodar o container
+CMD ["php", "-a"]
